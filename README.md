@@ -3,7 +3,7 @@ GObject的demo案例
 
 ##################################
 ###### mac 下安装配置glib环境
-# 安装
+## 安装
 brew install glib
 brew install libffi
 
