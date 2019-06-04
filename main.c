@@ -39,24 +39,8 @@ int main() {
              NULL
             );
 
-    gchar *title, *author, *publisher;
-    guint year;
 
-    g_object_get(G_OBJECT(entry),
-            "title", &title,
-            "author", &author,
-            "publisher", &publisher,
-            "year", &year,
-            NULL);
-
-    g_printf("  Title: %s\n"
-             " Author: %s\n"
-             "Publisher: %s\n"
-             "   Year: %d\n", title, author, publisher, year);
-
-    g_free(title);
-    g_free(author);
-    g_free(publisher);
+    kb_bibtex_printf(entry);
 
     g_object_unref(entry);
 

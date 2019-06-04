@@ -25,4 +25,8 @@ struct _KbBibtexClass{
 
 GType kb_bibtex_get_type(void);
 
+
+/*对象的方法*/
+void kb_bibtex_printf(KbBibtex *self);
+
 #endif //KB_BIBTEX_H

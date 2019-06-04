@@ -146,3 +146,25 @@ kb_bibtex_init(KbBibtex *self){
 }
 
 
+void kb_bibtex_printf(KbBibtex *self){
+    gchar *title, *author, *publisher;
+    guint year;
+
+    g_object_get(G_OBJECT(self),
+                 "title", &title,
+                 "author", &author,
+                 "publisher", &publisher,
+                 "year", &year,
+                 NULL);
+
+    g_printf("  Title: %s\n"
+             " Author: %s\n"
+             "Publisher: %s\n"
+             "   Year: %d\n", title, author, publisher, year);
+
+    g_free(title);
+    g_free(author);
+    g_free(publisher);
+
+}
+
