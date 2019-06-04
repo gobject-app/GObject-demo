@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "lib/pm-dlist.c"
 #include "glib/gprintf.h"
+#include "lib/kb-bibtex.c"
 
 int main() {
     printf("Hello, World !!!\n");
@@ -25,6 +26,39 @@ int main() {
     }else{
         g_printf("\t 不是GObject实例\n");
     }
+
+
+
+    g_printf("------------------------------------------\n");
+
+    KbBibtex *entry = g_object_new(KB_TYPE_BIBTEX,
+             "title", "The {\\Tex}Book",
+             "author", "Knuth, D.E.",
+             "publisher", "Addison-Wesley Professional",
+             "year",1984,
+             NULL
+            );
+
+    gchar *title, *author, *publisher;
+    guint year;
+
+    g_object_get(G_OBJECT(entry),
+            "title", &title,
+            "author", &author,
+            "publisher", &publisher,
+            "year", &year,
+            NULL);
+
+    g_printf("  Title: %s\n"
+             " Author: %s\n"
+             "Publisher: %s\n"
+             "   Year: %d\n", title, author, publisher, year);
+
+    g_free(title);
+    g_free(author);
+    g_free(publisher);
+
+    g_object_unref(entry);
 
 
     return 0;
