@@ -17,17 +17,16 @@
 
 #define PM_TYPE_DLIST (pm_dlist_get_type())
 
+/*定义强制转换宏，可以将基类GObject转换为本子类*/
+#define PM_DLIST(object) G_TYPE_CHECK_INSTANCE_CAST((object), PM_TYPE_DLIST, PMDList);
+
 /*
  * 普通结构体， 作为实例结构体的成员
  * 双向链表节点的结构体
  */
 
-typedef struct _PMListNode PMDListNode;
-struct _PMListNode{
-    PMDListNode *prev;
-    PMDListNode *next;
-    void *data;
-};
+typedef struct _PMDListNode PMDListNode;
+
 
 // 在GObject世界里，类是两个结构体的组合，一个是实例结构体，另一个是类结构体
 
@@ -38,8 +37,6 @@ struct _PMListNode{
 typedef struct _PMDList PMDList;
 struct _PMDList{
     GObject parent_instance;  // 继承GObject类
-    PMDListNode *head;
-    PMDListNode *tail;
 };
 
 /*类结构体，类似于c++中，属于类的部分, 比如：static成员函数和static成员变量等*/
