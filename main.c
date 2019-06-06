@@ -2,6 +2,7 @@
 #include "lib/pm-dlist.c"
 #include "glib/gprintf.h"
 #include "lib/kb-bibtex.c"
+#include "lib/kb-articale.c"
 
 int main() {
     printf("Hello, World !!!\n");
@@ -29,7 +30,7 @@ int main() {
 
 
 
-    g_printf("------------------------------------------\n");
+    g_printf("GObject 对象定义 赋值------------------------------------------\n");
 
     KbBibtex *entry = g_object_new(KB_TYPE_BIBTEX,
              "title", "The {\\Tex}Book",
@@ -44,6 +45,27 @@ int main() {
 
     g_object_unref(entry);
 
+
+
+    g_printf("GObject的子类继承------------------------------------------\n");
+
+    /*GObject 库的类型管理系统的初始化*/
+    g_type_init ();
+    KbArticle *kbArticle = g_object_new(KB_TYPE_ARTICLE,
+                                   "title", "The {\\Tex}Book",
+                                   "author", "Knuth, D.E.",
+                                   "publisher", "Addison-Wesley Professional",
+                                   "year",1984,
+                                   //"journal", "Software: Practice and Experience",
+                                   "volume", "11",
+                                   "number","11",
+                                   "pages", "1119-1184",
+                                   NULL);
+
+
+    kb_article_printf(kbArticle);
+
+    g_object_unref(kbArticle);
 
     return 0;
 }
