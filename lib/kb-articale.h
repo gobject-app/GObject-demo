@@ -5,6 +5,7 @@
 #ifndef KB_ARTICALE_H
 #define KB_ARTICALE_H
 
+//引入基类 基类的设计失误对所有子类是一场巨大的灾难
 #include "kb-bibtex.h"
 
 #define KB_TYPE_ARTICLE (kb_article_get_type())
