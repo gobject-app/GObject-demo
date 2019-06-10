@@ -2,10 +2,10 @@
 // Created by tonye on 2019-06-09.
 //
 
-#include <glib-object.h>
-
 #include <math.h>
 #include <string.h>
+#include <stdio.h>
+
 
 typedef int(*Func2)(void *, void *);
 
@@ -14,11 +14,11 @@ static void
 compare2(void *a, void *b, Func2 callback){
     int r = callback(a,b);
     if(r == -1){
-        g_printf("a < b\n");
+        printf("a < b\n");
     }else if(r == 0){
-        g_printf("a == b\n");
+        printf("a == b\n");
     }else{
-        g_printf("a > b\n");
+        printf("a > b\n");
     }
 }
 

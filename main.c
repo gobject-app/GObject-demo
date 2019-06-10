@@ -6,11 +6,13 @@
 #include "lib/my-udisk.h"
 #include "lib/my-phdisk.h"
 
-#include "lib/no-gclosure.c"
+#include "lib/gclosure-no.c"
 
 #include <stdlib.h>
 #include <string.h>
 
+
+#include "lib/signal/my-file.h"
 
 
 
@@ -41,6 +43,23 @@ str_compare(const void *s1, const void *s2){
     }
 
 }
+
+
+static void
+file_print(gpointer gobject, gpointer user_data){
+    g_printf("invoking file_print!\n");
+}
+
+static void
+file_print_xml(gpointer gobject, gpointer user_data){
+    g_printf("invoking file_print_xml!\n");
+}
+
+static void
+file_print_text(gpointer gobject, gpointer user_data){
+    g_printf("invoking file_print_text!\n");
+}
+
 
 
 int main() {
@@ -100,6 +119,12 @@ int main() {
                                    "number","11",
                                    "pages", "1119-1184",
                                    NULL);
+
+    gchar *aa;
+
+    g_object_get(G_OBJECT(kbArticle), "pages", &aa, NULL);
+    g_object_set(G_OBJECT(kbArticle), "volume", aa, NULL);
+    g_object_set(G_OBJECT(kbArticle), "journal", aa, NULL);
 
 
     kb_article_printf(kbArticle);
@@ -162,7 +187,7 @@ int main() {
     }
 
 
-    g_printf("GObject闭包------------------------------------------\n");
+    g_printf("C闭包 gclosure-no------------------------------------------\n");
     /**
      * 闭包：就是一个函数加上它所有访问的所有非局部变量，这些变量对于那个函数而言即非全局变量，也非局部变量
      * 因此，str_compare与这2个参数形成一个闭包
@@ -179,10 +204,34 @@ int main() {
     func2 = str_compare2;
     compare2(s1, s2, func2);
 
+//    g_printf("GObject闭包  gclosure-do------------------------------------------\n");
+//    gfloat ga = 123.234234;
+//    gfloat gb = 222.3434;
+
+ //   GClosure *closure = g_cclosure_new(G_CALLBACK(float_compare3), &ga, NULL);
+//    g_closure_set_marshal(closure, g_cclosure_user_marshal_INT__VOID_VOID);
+//    compare3(closure, &gb);
 
 
+//    gchar *gs1 = "Hello World!\n";
+//    gchar *gs2 = "Hello! \n";
+//    closure = g_cclosure_new(G_CALLBACK(str_compare3), gs1, NULL);
+//    g_closure_set_marshal(closure, g_cclosure_user_marshal_INT__VOID_VOID);
+//    compare3(closure, gs2);
+//    g_closure_unref(closure);
 
 
+    g_printf("GObject 信号的事件响应------------------------------------------\n");
+
+    MyFile *file = g_object_new(MY_TYPE_FILE, "name","test.txt", NULL);
+
+    g_signal_connect(file, "file_changed", G_CALLBACK(file_print), NULL);
+    g_signal_connect(file, "file_changed", G_CALLBACK(file_print_xml), NULL);
+    g_signal_connect(file, "file_changed", G_CALLBACK(file_print_text), NULL);
+
+    my_file_write(file, "hello world!\n");
+
+    g_object_unref(file);
 
 
     return 0;
