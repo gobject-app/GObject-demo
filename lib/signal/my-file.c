@@ -55,6 +55,7 @@ my_file_get_property(GObject *object, guint property_id, GValue *value, GParamSp
     }
 }
 
+//dispose阶段 解除对象对其所有属性的引用，可以执行多次
 static void
 my_file_dispose(GObject *object){
     MyFile *self = MY_FILE(object);
@@ -63,9 +64,10 @@ my_file_dispose(GObject *object){
         g_io_channel_unref(priv->file);
         priv->file = NULL;
     }
-    G_OBJECT_CLASS(my_file_parent_class);
+    G_OBJECT_CLASS(my_file_parent_class)->dispose(object);
 }
 
+//finalize阶段 释放对象所有占有的资源，仅执行一次
 static void
 my_file_finalize(GObject *object){
     MyFile *self = MY_FILE(object);
