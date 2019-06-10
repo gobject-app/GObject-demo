@@ -14,6 +14,7 @@
 
 
 #include "lib/signal/my-file.h"
+#include "lib/signal/signal-demo.h"
 
 
 
@@ -61,6 +62,12 @@ file_print_text(gpointer gobject, gpointer user_data){
     g_printf("invoking file_print_text!\n");
 }
 
+
+static gchar
+my_signal_handler(gpointer *instance, gchar *buffer, gpointer userdata){
+    g_print("my_signal_handler said: %s\n", buffer);
+    g_print("my_signal_handler siad: %s\n", (gchar *)userdata);
+}
 
 
 int main() {
@@ -237,7 +244,14 @@ int main() {
 
 
     g_printf("GObject 信号机制——信号注册------------------------------------------\n");
+    gchar *userdata = "This is userdata";
+    SignalDemo *signalDemo = g_object_new(SIGNAL_TYPE_DEMO, NULL);
 
+    //信号连接
+    g_signal_connect(signalDemo, "hello", G_CALLBACK(my_signal_handler), userdata);
+
+    //发射信号
+    g_signal_emit_by_name(signalDemo, "hello", "This the seconde param", G_TYPE_NONE);
 
     return 0;
 }

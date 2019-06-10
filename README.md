@@ -35,4 +35,4 @@ export PYTHONPATH="/Library/Frameworks/Python.framework/Versions/3.6"
 glib-genmarshal --body int__void_void.txt > int__void_void.c
 
 ## 使用命令将 G_DEFINE_TYPE 宏 代码展开
-gcc `pkg-config --cflags --libs gobject-2.0` -E -P lib/signal/my-file.c > lib/signal/my-file-extend.c
+gcc `pkg-config --cflags --libs gobject-2.0` -E -P lib/signal/my-file.c > lib/signal/my-file-extend.c.bak
