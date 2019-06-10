@@ -235,6 +235,10 @@ int main() {
     g_object_unref(file);
 
 
+
+    g_printf("GObject 信号机制——信号注册------------------------------------------\n");
+
+
     return 0;
 }
 

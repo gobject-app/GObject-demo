@@ -101,15 +101,23 @@ void my_file_class_init(MyFileClass *klass){
             );
     g_object_class_install_properties(base_class, N_PROPERTIES, properties);
 
-    g_signal_new("file_changed",
-                 MY_TYPE_FILE,
+    g_signal_new("file_changed",   //信号名称
+                 MY_TYPE_FILE,     //类的类型 ID
                  G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
-                 0,
+
+                 0,  //内存偏移量，主要用于从 SignalDemoClass 结构体中找到 default_handler 指针的位置，
+                 // 可以使用 G_STRUCT_OFFSET 宏来获取，也可以直接根据 signal-demo.h 中的 SignalDemoClass 结构体的定义，
+                 // 使用 sizeof (GObjectClass) 来得到内存偏移量，因为 default_handler 指针之前只有一个 GObjectClass 结构体成员
+
                  NULL,
                  NULL,
-                 g_cclosure_marshal_VOID__VOID,
-                 G_TYPE_NONE,
-                 0
+
+                 g_cclosure_marshal_VOID__VOID, //设定闭包的marshal 视为回调函数 + 上下文环境而构成的一种数据结构
+                 //marshal 主要是用来“翻译”闭包的参数和返回值类型的，它将翻译的结果传递给闭包
+                 //之所以不直接调用闭包，而是在其外加了一层 marshal 的包装，主要是方便 GObject 库与其他语言的绑定
+
+                 G_TYPE_NONE, //指定 marshal 函数的返回值类型 VOID对应G_TYPE_NONE
+                 0 //指定 g_signal_new 函数向 marshal 函数传递的参数个数,
                  );
 }
 
