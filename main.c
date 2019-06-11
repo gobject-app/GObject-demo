@@ -6,8 +6,8 @@
 #include "lib/my-udisk.h"
 #include "lib/my-phdisk.h"
 
-#include "lib/gclosure-no.c"
-//#include "lib/gclosure-do.c"
+#include "lib/gclosure/gclosure-no.c"
+#include "lib/gclosure/gclosure-do.c"
 
 #include <stdlib.h>
 #include <string.h>
@@ -221,21 +221,21 @@ int main() {
     func2 = str_compare2;
     compare2(s1, s2, func2);
 
-//    g_printf("GObject闭包  gclosure-do------------------------------------------\n");
-//    gfloat ga = 123.234234;
-//    gfloat gb = 222.3434;
+    g_printf("GObject闭包  gclosure-do------------------------------------------\n");
+    gfloat ga = 123.234234;
+    gfloat gb = 222.3434;
 
- //   GClosure *closure = g_cclosure_new(G_CALLBACK(float_compare3), &ga, NULL);
-//    g_closure_set_marshal(closure, g_cclosure_user_marshal_INT__VOID_VOID);
-//    compare3(closure, &gb);
+    GClosure *closure = g_cclosure_new(G_CALLBACK(float_compare3), &ga, NULL);
+    g_closure_set_marshal(closure, g_cclosure_user_marshal_INT__VOID_VOID);
+    compare3(closure, &gb);
 
 
-//    gchar *gs1 = "Hello World!\n";
-//    gchar *gs2 = "Hello! \n";
-//    closure = g_cclosure_new(G_CALLBACK(str_compare3), gs1, NULL);
-//    g_closure_set_marshal(closure, g_cclosure_user_marshal_INT__VOID_VOID);
-//    compare3(closure, gs2);
-//    g_closure_unref(closure);
+    gchar *gs1 = "Hello World!\n";
+    gchar *gs2 = "Hello! \n";
+    closure = g_cclosure_new(G_CALLBACK(str_compare3), gs1, NULL);
+    g_closure_set_marshal(closure, g_cclosure_user_marshal_INT__VOID_VOID);
+    compare3(closure, gs2);
+    g_closure_unref(closure);
 
 
     g_printf("GObject 信号的事件响应------------------------------------------\n");
