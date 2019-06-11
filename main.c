@@ -15,6 +15,7 @@
 
 #include "lib/signal/my-file.h"
 #include "lib/signal/signal-demo.h"
+#include "lib/accumulator/accumusignal-demo.h"
 
 
 
@@ -66,8 +67,16 @@ file_print_text(gpointer gobject, gpointer user_data){
 static gchar
 my_signal_handler(gpointer *instance, gchar *buffer, gpointer userdata){
     g_print("my_signal_handler said: %s\n", buffer);
-    g_print("my_signal_handler siad: %s\n", (gchar *)userdata);
+    g_print("my_signal_handler said: %s\n", (gchar *)userdata);
 }
+
+static gint
+my_accumusignal_handler(gpointer *instance, gchar *buffer, gpointer userdata){
+    g_print("my_accumusignal_handler said: %s\n", buffer);
+    g_print("my_accumusignal_handler said: %s\n", (gchar *)userdata);
+    return 1;
+}
+
 
 
 int main() {
@@ -251,8 +260,29 @@ int main() {
     g_signal_connect(signalDemo, "hello", G_CALLBACK(my_signal_handler), userdata);
 
     //发射信号
-    g_signal_emit_by_name(signalDemo, "hello", "This the seconde param", G_TYPE_NONE);
+    g_signal_emit_by_name(signalDemo, "hello", "This the second param", G_TYPE_NONE);
 
+    g_object_unref(signalDemo);
+
+
+    g_printf("GObject 信号机制——信号返回值 Accumulator------------------------------------------\n");
+
+    AccumusignalDemo *accumusignalDemo = g_object_new(ACCUMUSIGNAL_TYPE_DEMO, NULL);
+
+    gint val = 0; //val 参数可以保存最后一个信号闭包的返回值
+
+    //信号连接
+    g_signal_connect(accumusignalDemo, "acc",
+            G_CALLBACK(my_accumusignal_handler),
+            userdata);
+
+    //发射信号
+    g_signal_emit_by_name(accumusignalDemo,
+            "acc",
+            "This the second param",
+            &val);
+
+    g_object_unref(accumusignalDemo);
     return 0;
 }
 

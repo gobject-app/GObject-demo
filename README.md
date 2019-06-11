@@ -30,9 +30,11 @@ cd /Users/tonye/CLionProjects/CLionProjects-gstreamer/GObject-demo
 gcc $(pkg-config --cflags --libs gobject-2.0)  main.c -o test
 
 ## 使用glib-genmarshal工具生成g_cclosure_user_marshal_INT__VOID_VOID函数
-
 export PYTHONPATH="/Library/Frameworks/Python.framework/Versions/3.6"
 glib-genmarshal --body int__void_void.txt > int__void_void.c
+
+export PYTHONPATH="/Library/Frameworks/Python.framework/Versions/3.6"
+glib-genmarshal --body lib/accumulator/int__string.txt > lib/accumulator/int__string.c.bak
 
 ## 使用命令将 G_DEFINE_TYPE 宏 代码展开
 gcc `pkg-config --cflags --libs gobject-2.0` -E -P lib/signal/my-file.c > lib/signal/my-file-extend.c.bak
